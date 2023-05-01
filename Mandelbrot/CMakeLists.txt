@@ -1,4 +1,4 @@
-﻿add_executable (Mandelbrot "main.cpp""Buffer.hpp" "Color.hpp")
+﻿add_executable (Mandelbrot "main.cpp" "Buffer.hpp" "Color.hpp" "Mandelbrot.hpp"  "Presenter.hpp" "Presenter.cpp" "Application.hpp" "Application.cpp")
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
