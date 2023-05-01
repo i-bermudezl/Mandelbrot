@@ -1,7 +1,11 @@
 #include "Application.hpp"
 
 #include "Mandelbrot.hpp"
-#include "SDL2/SDL.h"
+
+#include <imgui.h>
+#include <imgui_impl_sdl2.h>
+
+#include <SDL2/SDL.h>
 
 Application::Application(int width, int height, std::string title) : p{width, height, title}
 {
@@ -11,7 +15,7 @@ void Application::run()
 {
     Mandelbrot m{p.getWidth(), p.getHeight()};
 
-    int iterations = 5;
+    int iterations = 250;
 
     const auto defaultScale{1.0};
     const auto defaultRotation{0.0};
@@ -27,6 +31,7 @@ void Application::run()
     {
         while (SDL_PollEvent(&e))
         {
+            ImGui_ImplSDL2_ProcessEvent(&e);
             if (e.type == SDL_QUIT)
             {
                 quit = true;
@@ -40,19 +45,19 @@ void Application::run()
 
             if (keyboardState[SDL_SCANCODE_D])
             {
-                translation += Eigen::Vector2d{0.1, 0.0};
+                translation += Eigen::Vector2d{0.1, 0.0} / scale;
             }
             if (keyboardState[SDL_SCANCODE_A])
             {
-                translation -= Eigen::Vector2d{0.1, 0.0};
+                translation -= Eigen::Vector2d{0.1, 0.0} / scale;
             }
             if (keyboardState[SDL_SCANCODE_W])
             {
-                translation += Eigen::Vector2d{0.0, 0.1};
+                translation += Eigen::Vector2d{0.0, 0.1} / scale;
             }
             if (keyboardState[SDL_SCANCODE_S])
             {
-                translation -= Eigen::Vector2d{0.0, 0.1};
+                translation -= Eigen::Vector2d{0.0, 0.1} / scale;
             }
 
             if (keyboardState[SDL_SCANCODE_E])
@@ -74,9 +79,9 @@ void Application::run()
             {
                 scale *= 1.1;
             }
-
-            auto buffer = m(iterations, scale, rotation, translation);
-            p.present(buffer);
         }
+
+        auto buffer = m(iterations, scale, rotation, translation);
+        p.present(buffer);
     }
 }

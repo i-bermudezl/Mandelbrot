@@ -2,6 +2,7 @@
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
+find_package(imgui CONFIG REQUIRED)
 
 target_link_libraries(Mandelbrot
     PRIVATE
@@ -10,6 +11,8 @@ target_link_libraries(Mandelbrot
 )
 
 target_link_libraries(Mandelbrot PRIVATE Eigen3::Eigen)
+
+target_link_libraries(Mandelbrot PRIVATE imgui::imgui)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Mandelbrot PROPERTY CXX_STANDARD 20)

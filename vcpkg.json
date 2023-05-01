@@ -4,6 +4,10 @@
   "version": "0.1",
   "dependencies": [
     "sdl2",
-    "eigen3"
+    "eigen3",
+    {
+      "name": "imgui",
+      "features": [ "sdl2-binding", "sdl2-renderer-binding" ]
+    }
   ]
 }

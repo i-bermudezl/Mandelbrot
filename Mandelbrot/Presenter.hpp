@@ -1,5 +1,9 @@
 #pragma once
 
+#include <imgui.h>
+#include <imgui_impl_sdl2.h>
+#include <imgui_impl_sdlrenderer.h>
+
 #include <sdl2/SDL.h>
 
 #include <concepts>
@@ -33,6 +37,20 @@ class Presenter
 
 template <std::floating_point Precision> void Presenter::present(const ColorBuffer<Precision> &framebuffer)
 {
+    ImGui_ImplSDLRenderer_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+
+    bool demo;
+    ImGui::ShowDemoWindow(&demo);
+
+    ImGui::Render();
+    auto &io = ImGui::GetIO();
+    SDL_RenderSetScale(renderer, io.DisplayFramebufferScale.x, io.DisplayFramebufferScale.y);
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    SDL_SetRenderDrawColor(renderer, (Uint8)(clear_color.x * 255), (Uint8)(clear_color.y * 255),
+                           (Uint8)(clear_color.z * 255), (Uint8)(clear_color.w * 255));
+
     SDL_RenderClear(renderer);
 
     uint32_t *pixels = nullptr;
@@ -49,6 +67,8 @@ template <std::floating_point Precision> void Presenter::present(const ColorBuff
     SDL_UnlockTexture(renderTexture);
 
     SDL_RenderCopy(renderer, renderTexture, nullptr, nullptr);
+
+    ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
 
     SDL_RenderPresent(renderer);
 }
