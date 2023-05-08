@@ -5,15 +5,15 @@
 template <typename T> class Buffer
 {
   public:
-    explicit Buffer(int width, int height);
+    Buffer(const int width, const int height);
 
     int getWidth() const;
     int getHeight() const;
 
-    T read(int x, int y) const;
-    void write(T value, int x, int y);
+    T read(const int x, const int y) const;
+    void write(T value, const int x, const int y);
 
-    Buffer<T> clone();
+    Buffer<T> clone() const;
 
   private:
     const int width;
@@ -22,7 +22,7 @@ template <typename T> class Buffer
 };
 
 template <typename T>
-Buffer<T>::Buffer(int width, int height) : width{width}, height{height}, buffer{new T[width * height]}
+Buffer<T>::Buffer(const int width, const int height) : width{width}, height{height}, buffer{new T[width * height]}
 {
 }
 
@@ -31,22 +31,22 @@ template <typename T> int Buffer<T>::getWidth() const
     return width;
 }
 
-template <typename T> inline int Buffer<T>::getHeight() const
+template <typename T> int Buffer<T>::getHeight() const
 {
     return height;
 }
 
-template <typename T> inline T Buffer<T>::read(int x, int y) const
+template <typename T> T Buffer<T>::read(const int x, const int y) const
 {
     return buffer[x + width * y];
 }
 
-template <typename T> void Buffer<T>::write(T value, int x, int y)
+template <typename T> void Buffer<T>::write(T value, const int x, const int y)
 {
     buffer[x + width * y] = value;
 }
 
-template <typename T> inline Buffer<T> Buffer<T>::clone()
+template <typename T> Buffer<T> Buffer<T>::clone() const
 {
     Buffer tmp{width, height};
     for (int i = 0; i < height; i++)

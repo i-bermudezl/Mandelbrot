@@ -18,7 +18,7 @@ class Presenter
     Presenter(int width, int height, std::string title);
     ~Presenter();
 
-    template <std::floating_point Precision> void present(const ColorBuffer<Precision> &framebuffer);
+    template <std::floating_point Precision> void present(const Buffer<Color<Precision>> &framebuffer);
 
     int getWidth();
     int getHeight();
@@ -35,7 +35,7 @@ class Presenter
     SDL_Texture *renderTexture;
 };
 
-template <std::floating_point Precision> void Presenter::present(const ColorBuffer<Precision> &framebuffer)
+template <std::floating_point Precision> void Presenter::present(const Buffer<Color<Precision>> &framebuffer)
 {
     ImGui_ImplSDLRenderer_NewFrame();
     ImGui_ImplSDL2_NewFrame();

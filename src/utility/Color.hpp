@@ -5,13 +5,12 @@
 
 #include "Buffer.hpp"
 
-
 template <std::floating_point T> struct Color
 {
     Color() = default;
     Color(T r, T g, T b, T a);
 
-    std::uint32_t pack();
+    std::uint32_t pack() const;
 
     T r;
     T g;
@@ -19,14 +18,11 @@ template <std::floating_point T> struct Color
     T a;
 };
 
-template <std::floating_point T> using ColorBuffer = Buffer<Color<T>>;
-
-
 template <std::floating_point T> Color<T>::Color(T r, T g, T b, T a) : r{r}, g{g}, b{b}, a{a}
 {
 }
 
-template <std::floating_point T> uint32_t Color<T>::pack()
+template <std::floating_point T> uint32_t Color<T>::pack() const
 {
     auto R = static_cast<std::uint32_t>(r * 255);
     auto G = static_cast<std::uint32_t>(g * 255);
